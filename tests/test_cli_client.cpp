@@ -2736,18 +2736,6 @@ TEST_F(ClientAlias, execute_alias_with_arguments)
     EXPECT_EQ(send_command({"some_alias", "some_argument"}), mp::ReturnCode::Ok);
 }
 
-TEST_F(ClientAlias, fails_executing_alias_without_separator)
-{
-    populate_db_file(AliasesVector{{"some_alias", {"some_instance", "some_command"}}});
-
-    EXPECT_CALL(mock_daemon, ssh_info(_, _, _)).Times(0);
-
-    std::stringstream cerr_stream;
-    EXPECT_EQ(send_command({"some_alias", "--some-option"}, trash_stream, cerr_stream),
-              mp::ReturnCode::CommandLineError);
-    EXPECT_THAT(cerr_stream.str(), HasSubstr("<alias> --"));
-}
-
 TEST_F(ClientAlias, alias_refuses_creation_unexisting_instance)
 {
     EXPECT_CALL(mock_daemon, info(_, _, _)).Times(AtMost(1)).WillRepeatedly(info_function);
