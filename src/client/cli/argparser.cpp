@@ -101,6 +101,7 @@ mp::ParseCode mp::ArgParser::prepare_alias_execution(const QString& alias)
     arguments.replace(pos, "exec");
     arguments.insert(pos + 1, QString::fromStdString(execute_alias->instance));
     arguments.insert(pos + 2, QString::fromStdString(execute_alias->command));
+    arguments.insert(pos + 3, "--"); // Needed to avoid complaints in case of arguments to the command.
 
     return mp::ParseCode::Ok;
 }
