@@ -90,18 +90,19 @@ TEST_P(TestAliasArguments, test_alias_arguments)
 
 INSTANTIATE_TEST_SUITE_P(
     ArgParser, TestAliasArguments,
-    Values(std::make_tuple(QStringList{"mp", "an_alias"}, QStringList{"mp", "exec", "an_instance", "a_command"}),
+    Values(std::make_tuple(QStringList{"mp", "an_alias"}, QStringList{"mp", "exec", "an_instance", "a_command", "--"}),
            std::make_tuple(QStringList{"mp", "-v", "an_alias"},
-                           QStringList{"mp", "-v", "exec", "an_instance", "a_command"}),
+                           QStringList{"mp", "-v", "exec", "an_instance", "a_command", "--"}),
            std::make_tuple(QStringList{"mp", "an_alias", "-v"},
-                           QStringList{"mp", "exec", "an_instance", "a_command", "-v"}),
+                           QStringList{"mp", "exec", "an_instance", "a_command", "--", "-v"}),
            std::make_tuple(QStringList{"mp", "an_alias", "an_argument"},
-                           QStringList{"mp", "exec", "an_instance", "a_command", "an_argument"}),
-           std::make_tuple(QStringList{"mp", "an_alias", "--", "an_argument"},
                            QStringList{"mp", "exec", "an_instance", "a_command", "--", "an_argument"}),
+           std::make_tuple(QStringList{"mp", "an_alias", "--", "an_argument"},
+                           QStringList{"mp", "exec", "an_instance", "a_command", "--", "--", "an_argument"}),
            std::make_tuple(QStringList{"mp", "an_alias", "--", "--an_option"},
-                           QStringList{"mp", "exec", "an_instance", "a_command", "--", "--an_option"}),
+                           QStringList{"mp", "exec", "an_instance", "a_command", "--", "--", "--an_option"}),
            std::make_tuple(QStringList{"mp", "an_alias", "--", "--an_option", "an_argument"},
-                           QStringList{"mp", "exec", "an_instance", "a_command", "--", "--an_option", "an_argument"}),
+                           QStringList{"mp", "exec", "an_instance", "a_command", "--", "--", "--an_option",
+                                       "an_argument"}),
            std::make_tuple(QStringList{"mp", "an_alias", "an_alias", "an_alias"}, // args happen to be called the same
-                           QStringList{"mp", "exec", "an_instance", "a_command", "an_alias", "an_alias"})));
+                           QStringList{"mp", "exec", "an_instance", "a_command", "--", "an_alias", "an_alias"})));
